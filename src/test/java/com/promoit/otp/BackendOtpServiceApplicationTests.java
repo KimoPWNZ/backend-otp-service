@@ -1,4 +1,4 @@
-package com.promoit.backendotpservice;
+package com.promoit.otp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
