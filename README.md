@@ -2,7 +2,6 @@
 
 ![Java](https://img.shields.io/badge/Java-17%2B-blue?style=flat-square)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?style=flat-square)
-![License](https://img.shields.io/github/license/KimoPWNZ/promoit-otp?style=flat-square)
 
 ## Описание
 
@@ -162,12 +161,6 @@ src/
 ```bash
 ./mvnw test
 ```
-
----
-
-## Лицензия
-
-Проект распространяется под лицензией [MIT](LICENSE).
 
 ---
 
