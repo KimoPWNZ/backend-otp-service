@@ -2,6 +2,7 @@ package com.promoit.otp.service;
 
 import com.promoit.otp.model.OtpCode;
 import com.promoit.otp.model.OtpConfig;
+import com.promoit.otp.model.enums.OtpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -29,9 +30,17 @@ public class OtpService {
 
     public boolean validateOtp(Long userId, String operationId, String code) {
         OtpCode otp = otpStore.get(userId + ":" + operationId);
-        if (otp == null || otp.isExpired()) return false;
+        if (otp == null) return false;
+        if (otp.isExpired()) {
+            otp.setStatus(OtpStatus.EXPIRED);
+            otpStore.remove(userId + ":" + operationId);
+            return false;
+        }
         boolean valid = otp.getCode().equals(code);
-        if (valid) otpStore.remove(userId + ":" + operationId);
+        if (valid) {
+            otp.setStatus(OtpStatus.USED);
+            otpStore.remove(userId + ":" + operationId);
+        }
         return valid;
     }
 }

@@ -9,8 +9,8 @@ public class OtpConfigConfig {
     @Bean
     public OtpConfig otpConfig() {
         OtpConfig config = new OtpConfig();
-        config.setCodeLength(6);      // длина кода по умолчанию
-        config.setTtlSeconds(300);    // TTL по умолчанию (5 мин)
+        config.setCodeLength(6);      // длина OTP-кода по умолчанию
+        config.setTtlSeconds(300);    // TTL по умолчанию (5 минут)
         return config;
     }
 }

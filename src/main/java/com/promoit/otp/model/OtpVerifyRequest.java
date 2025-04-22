@@ -9,5 +9,4 @@ public class OtpVerifyRequest {
     private Long userId;
     private String operationId;
     private String code;
-
 }

@@ -8,5 +8,4 @@ import lombok.Setter;
 public class OtpRequest {
     private Long userId;
     private String operationId;
-
 }
