@@ -2,7 +2,6 @@
 
 ![Java](https://img.shields.io/badge/Java-17%2B-blue?style=flat-square)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?style=flat-square)
-![License](https://img.shields.io/github/license/KimoPWNZ/promoit-otp?style=flat-square)
 
 ## Описание
 
@@ -30,101 +29,97 @@
 
 ---
 
-## Быстрый старт
+### Запуск
 
-### 1. Клонирование репозитория
+1. **Клонируйте репозиторий:**
+    ```bash
+    git clone https://github.com/KimoPWNZ/promoit-otp.git
+    cd promoit-otp
+    ```
 
-```bash
-git clone https://github.com/KimoPWNZ/promoit-otp.git
-cd promoit-otp
-```
+2. **Добавьте файл конфигурации email:**  
+   Создайте файл `src/main/resources/email.properties` со следующим содержимым:
+    ```properties
+    email.username=your@email.com
+    email.password=your_email_password
+    email.from=your@email.com
+    mail.smtp.host=smtp.yourprovider.com
+    mail.smtp.port=465
+    mail.smtp.auth=true
+    mail.smtp.ssl.enable=true
+    ```
 
-### 2. Конфигурация email
-
-Создайте файл `src/main/resources/email.properties` со следующим содержимым:
-
-```properties
-email.username=your@email.com
-email.password=your_email_password
-email.from=your@email.com
-mail.smtp.host=smtp.yourprovider.com
-mail.smtp.port=465
-mail.smtp.auth=true
-mail.smtp.ssl.enable=true
-```
-
-> ⚠️ **Обязательно:** Не коммитьте реальные логины и пароли! Используйте переменные окружения или секреты в CI/CD для production.
-
-### 3. Сборка и запуск
-
-```bash
-./mvnw spring-boot:run
-```
-
-или
-
-```bash
-./gradlew bootRun
-```
-
-Сервис будет доступен по адресу: [http://localhost:8080](http://localhost:8080)
+3. **Соберите и запустите проект:**
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+    или
+    ```bash
+    ./gradlew bootRun
+    ```
 
 ---
 
-## Примеры API
+## Какие команды поддерживаются
 
-### Генерация OTP
+API реализован в виде HTTP-эндпоинтов (примерные адреса):
 
-```http
-POST /otp/generate
-Content-Type: application/json
+- **Генерация OTP**  
+  `POST /otp/generate`  
+  Тело запроса:
+    ```json
+    {
+      "userId": 1,
+      "operationId": "login"
+    }
+    ```
 
-{
-  "userId": 1,
-  "operationId": "login"
-}
-```
+- **Проверка OTP**  
+  `POST /otp/verify`  
+  Тело запроса:
+    ```json
+    {
+      "userId": 1,
+      "operationId": "login",
+      "code": "123456"
+    }
+    ```
 
-#### Ответ:
-```json
-{
-  "userId": 1,
-  "operationId": "login",
-  "code": "123456",
-  "expiresAt": "2025-04-22T20:00:00",
-  "status": "ACTIVE"
-}
-```
+- **Регистрация пользователя**  
+  `POST /users/register`  
+  Тело запроса:
+    ```json
+    {
+      "login": "user1",
+      "passwordHash": "hash123",
+      "role": "USER"
+    }
+    ```
+
+- **Получение всех пользователей**  
+  `GET /users/all`
+
+- **Удаление пользователя**  
+  `DELETE /users/{login}`
 
 ---
 
-### Валидация OTP
+## Как протестировать код
 
-```http
-POST /otp/verify
-Content-Type: application/json
+1. **Автоматические тесты**
+    ```bash
+    ./mvnw test
+    ```
+    или
+    ```bash
+    ./gradlew test
+    ```
 
-{
-  "userId": 1,
-  "operationId": "login",
-  "code": "123456"
-}
-```
-
----
-
-### Регистрация пользователя
-
-```http
-POST /users/register
-Content-Type: application/json
-
-{
-  "login": "user1",
-  "passwordHash": "hash123",
-  "role": "USER"
-}
-```
+2. **Проверка вручную через Postman, Curl или Swagger UI**
+    - Проверьте регистрацию пользователя.
+    - Проверьте генерацию OTP.
+    - Проверьте получение и валидацию OTP.
+    - Проверьте отправку OTP на email.
 
 ---
 
@@ -151,23 +146,6 @@ src/
 
 - `codeLength`: длина OTP-кода, по умолчанию 6
 - `ttlSeconds`: срок жизни кода в секундах, по умолчанию 300 (5 минут)
-
----
-
-## Разработка и вклад
-
-Будем рады любым PR и предложениям!  
-Для запуска тестов:
-
-```bash
-./mvnw test
-```
-
----
-
-## Лицензия
-
-Проект распространяется под лицензией [MIT](LICENSE).
 
 ---
 
