@@ -163,17 +163,79 @@ API реализован в виде HTTP-эндпоинтов (примерны
 ## Структура проекта
 
 ```
-src/
- ├─ main/
- │   ├─ java/com/promoit/otp/
- │   │    ├─ model/          // Модели данных (User, OtpCode, OtpConfig, ...)
- │   │    ├─ dao/            // In-memory DAO для пользователей
- │   │    ├─ service/        // Сервисы бизнес-логики (OtpService, UserService, EmailNotificationService)
- │   │    └─ controller/     // REST-контроллеры (если есть)
- │   └─ resources/
- │        └─ email.properties // Конфиг для SMTP
- └─ test/
+backend-otp-service/
+│
+├── .idea/                             # Настройки среды разработки (IntelliJ IDEA)
+│   └── ...                            # Файлы конфигурации среды
+│
+├── .mvn/                              # Maven wrapper
+│   └── wrapper/
+│       └── maven-wrapper.properties
+│
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── promoit/
+│                   └── otp/
+│                       ├── config/                 # Конфигурационные классы приложения
+│                       │   ├── OtpConfigConfig.java
+│                       │   └── SecurityConfig.java
+│                       │
+│                       ├── controller/             # REST-контроллеры (API)
+│                       │   ├── OtpController.java
+│                       │   └── UserController.java
+│                       │
+│                       ├── dao/                    # DAO-интерфейсы и их in-memory реализации
+│                       │   ├── OtpCodeDao.java
+│                       │   ├── OtpCodeDaoInMemoryImpl.java
+│                       │   ├── OtpConfigDao.java
+│                       │   ├── OtpConfigDaoInMemoryImpl.java
+│                       │   ├── UserDao.java
+│                       │   └── UserDaoInMemoryImpl.java
+│                       │
+│                       ├── model/                  # Модели данных и перечисления
+│                       │   ├── enums/
+│                       │   │   └── OtpStatus.java
+│                       │   ├── OtpCode.java
+│                       │   ├── OtpConfig.java
+│                       │   ├── OtpRequest.java
+│                       │   ├── OtpVerifyRequest.java
+│                       │   └── User.java
+│                       │
+│                       ├── security/               # Классы для безопасности и работы с JWT
+│                       │   ├── JwtFilter.java
+│                       │   └── JwtUtil.java
+│                       │
+│                       ├── service/                # Бизнес-логика и сервисы
+│                       │   ├── EmailNotificationService.java
+│                       │   ├── FileOtpLogger.java
+│                       │   ├── OtpService.java
+│                       │   ├── SmppNotificationService.java
+│                       │   ├── TelegramNotificationService.java
+│                       │   └── UserService.java
+│                       │
+│                       └── MainApplication.java     # Главный стартовый класс приложения
+│
+│   └── resources/                      # Ресурсы и конфигурационные файлы
+│       ├── application.properties
+│       ├── email.properties.properties
+│       ├── sms.properties.properties
+│       └── logback.xml
+│
+└── test/
+    └── java/
+        └── com/
+            └── promoit/
+                └── otp/
+                    └── BackendOtpServiceApplicationTests.java
 ```
+
+> **Пояснения:**
+> - Все основные слои приложения вынесены в отдельные пакеты: `config`, `controller`, `dao`, `model`, `security`, `service`.
+> - В папке `resources` хранятся настройки Spring и сервисов (email, sms, логирование).
+> - В папке `test` размещены интеграционные и/или модульные тесты.
+> - В структуре полностью реализуются требования к современному Spring Boot проекту с поддержкой бизнес-логики, безопасности, логирования и тестирования.
 
 ---
 
